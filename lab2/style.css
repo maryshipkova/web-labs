@@ -8,12 +8,13 @@ body {
 
 }
 .container-fluid{
-    padding-left: 0;
+    padding: 0;
+    overflow-x: hidden;
 
 }
 section{
     width: 100%;
-    padding: 2rem 0 2rem 5rem;
+    padding: 2rem 2rem 2rem 5rem;
 }
 .Header{
     width: 100%;
@@ -23,6 +24,7 @@ section{
     justify-content: space-between;
    
 }
+
 .Header .nav{
     justify-content: flex-end;
 }
@@ -41,7 +43,7 @@ section{
     
 }
 .Main-Intro{
-    margin-top: 10rem;
+    /* margin-top: 10rem; */
     max-width: 600px;
 }
 img{
@@ -50,24 +52,77 @@ img{
 .button-group{
     display: flex;
 }
-.Main-Buttons button:first-child{
+.button-group button:first-child{
     margin-right: 1rem;
 }
 .Description{
     width: 100%;
     background-color: #FAFAFE;
 }
-.Description-Content{
-    margin-top: 2rem;
+.Description-Main{
+    margin-bottom: 2rem;
 }
-
+.Description-Top{
+    margin-bottom: 2rem;
+}
+.Description-List{
+    list-style: none;
+}
+.Description-Item{
+    background-color: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.Description-Item p{
+    margin: 0;
+}
+.Description .btn{
+    padding: 1rem 0;
+}
 .Cta{
-    margin-top: 2rem;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Cta-Title{
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Cta .row{
+    margin: 0;
+}
+.Cta .card:not(:last-child){
+    background-color: #fff;
+    margin-right: 1rem;
 }
 
+.Cta .card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Cta .card-img-top{
+    width: 100%;
+}
+.Cta .card-title{
+    font-weight: bold;
+    color: #828691;
+}
 .Feedback{
     padding-bottom: 0;
     background-color: #5347BE; 
     color: white;
 
+}
+
+@media only screen and (max-width: 600px) { /* phone */
+    .Header{
+        flex-direction: column;
+    }
+    section{
+        padding-left: 2rem;
+    }
 }
