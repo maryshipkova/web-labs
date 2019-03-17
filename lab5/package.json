@@ -5,9 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "server": "nodemon ./src/server/index.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "marked": "^0.6.1",
+    "mongoose": "^5.4.19",
     "vue": "^2.6.6"
   },
   "devDependencies": {
@@ -17,6 +22,8 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "mongodb": "^3.1.13",
+    "nodemon": "^1.18.10",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {
