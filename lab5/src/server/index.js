@@ -1,8 +1,5 @@
-// import {ObjectID} from "mongodb";
-
 const express = require('express');
 const bodyParser = require('body-parser');
-// const MongoClient = require("mongodb").MongoClient;
 const mongoose = require('mongoose');
 
 const app = express();
@@ -27,45 +24,18 @@ mongoose.connection.on('connected', () => {
 });
 
 const filesScheme = new mongoose.Schema({
-    _id: String,
+    // _id: String,
     name: String,
     text: String
 });
 const filesModel = db.model('files', filesScheme);
 
-const getFiles = function (db) {
-    // Get the documents collection
-    const collection = db.collection('files');
-    // Find some documents
-    collection.find({}).toArray(function (err, files) {
-        console.log("Found the following records");
-        console.log(files);
-        // callback(files);
-    });
-    return new Promise((resolve => resolve(files)));
-};
-
-//returns date in format hh::mm::ss
-function getFormatTime() {
-
-    let millisecondsFromStart = Date.now() - startTime;
-
-    let seconds = parseInt((millisecondsFromStart / 1000) % 60),
-        minutes = parseInt((millisecondsFromStart / (1000 * 60)) % 60),
-        hours = parseInt((millisecondsFromStart / (1000 * 60 * 60)) % 24);
-
-    hours = (hours < 10) ? '0' + hours : hours;
-    minutes = (minutes < 10) ? '0' + minutes : minutes;
-    seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-    return hours + ':' + minutes + ':' + seconds;
-
-}
-
 app.post('/api/save', (request, response) => {
-    console.log(request.body.text);
-
-    response.sendStatus(200);
+    const filesModelInstance = new filesModel({name: new Date(), text: request.body.text});
+    filesModelInstance.save((err) => {
+        if (err) console.log(err);
+        response.sendStatus(200);
+    });
 
 });
 
@@ -75,8 +45,7 @@ app.get('/api/load', function (request, response) {
         if (err) console.log(err);
         response.json(res);
     });
-
-
+    
 });
 
 
