@@ -5,47 +5,54 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 8000;
 
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Access-Control-Allow-Origin');
+
+    next();
+});
 app.use(bodyParser.json());       // support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // support URL-encoded bodies
     extended: true
 }));
 
-mongoose.connect("mongodb://localhost:27017/mdEditor"); //, {useNewUrlParser: true}
-const db = mongoose.connection;
+mongoose.connect("mongodb://localhost:27017/mdEditor", {useNewUrlParser: true});
 
-// Привязать подключение к событию ошибки  (получать сообщения об ошибках подключения)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-// Данная функция будет вызвано когда подключение будет установлено
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.connection.on('connected', () => {
-    // Подключение установлено
     console.info("Succesfully connected to MongoDB Database");
-    // В дальнейшем здесь мы будем запускать сервер.
 });
 
 const filesScheme = new mongoose.Schema({
-    // _id: String,
     name: String,
     text: String
 });
-const filesModel = db.model('files', filesScheme);
+const filesModel = mongoose.connection.model('files', filesScheme);
 
 app.post('/api/save', (request, response) => {
-    const filesModelInstance = new filesModel({name: new Date(), text: request.body.text});
-    filesModelInstance.save((err) => {
-        if (err) console.log(err);
-        response.sendStatus(200);
-    });
 
+    filesModel.findOneAndUpdate({name: request.body.name}, {text: request.body.text}, {upsert: true}, function (err) {
+        if (err) return response.sendStatus(500);
+        console.log('saved');
+        return response.sendStatus(200);
+    });
 });
 
 app.get('/api/load', function (request, response) {
 
     filesModel.find({}, function (err, res) {
         if (err) console.log(err);
+        console.log('loaded');
         response.json(res);
     });
-    
+
 });
 
 

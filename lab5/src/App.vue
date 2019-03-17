@@ -1,29 +1,72 @@
 <template>
     <div id="app">
         <header class="btn-group">
-            <button class="btn">save</button>
-            <button class="btn">load</button>
+            <input type="text" class="Filename" v-model="name">
+            <button class="btn" v-on:click="save(name,input)">save</button>
+            <button class="btn" v-on:click="load">load</button>
         </header>
         <textarea v-model="input"></textarea>
         <div v-html="compiledMarkdown"></div>
+        <files-list v-bind:items="items" v-bind:is-active="isActive" @inputChange="inputChange"/>
     </div>
 </template>
 
 <script>
+    /* eslint-disable */
+    import FilesList from "./components/filesList";
+    import * as marked from "marked";
 
     export default {
         name: 'app',
+        components: {FilesList},
         data: function () {
             return {
-                input: '# hello'
+                input: '# hello',
+                name: 'new_file',
+                items: [],
+                isActive: false
             };
+        },
+        methods: {
+            load: function () {
+                fetch('http://localhost:8000/api/load').then((res) => {
+                    return res.json();
+                }).then((filesArr) => {
+                    this.items = filesArr;
+                    this.isActive = true;
+                });
+
+            },
+            save: (name,text) => {
+                const body = {
+                    name,
+                    text
+                };
+
+                fetch('http://localhost:8000/api/save', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+
+                }).then(() => {
+                    alert('saved!');
+                });
+            },
+            inputChange: function (item) {
+                console.log(item.text);
+                this.input = item.text;
+                this.isActive = false;
+            }
         },
         computed: {
             compiledMarkdown: function () {
-                // eslint-disable-next-line
                 return marked(this.input, {sanitize: true})
             }
-        },
+        }
 
     }
 </script>
@@ -43,6 +86,7 @@
         vertical-align: top;
         box-sizing: border-box;
         padding: 0 20px;
+        resize: none;
     }
 
     textarea {
@@ -60,13 +104,15 @@
     .btn-group {
         padding: .5rem;
         background-color: blueviolet;
-        /*position: absolute;*/
     }
-    .btn{
+
+    .btn {
         padding: .5rem 1rem;
         border-radius: 50%;
+        outline: none;
     }
-    .btn:first-of-type{
+
+    .btn-group>* {
         margin-right: 1rem;
     }
 </style>
