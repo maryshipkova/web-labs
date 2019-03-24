@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +14,17 @@
 
 Route::get('/', function () {
     return view('welcome');
+    
 });
+Route::get('/news', [
+    'uses' => 'NewsController@index'
+    ]
+);
+Route::post('/news', [
+    'uses' => 'NewsController@create'
+    ]
+);
+Route::delete('/news', [
+    'uses' => 'NewsController@delete'
+    ]
+);
