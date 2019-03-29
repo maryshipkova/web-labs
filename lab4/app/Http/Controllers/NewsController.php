@@ -9,17 +9,20 @@ class NewsController extends Controller
 {
     public function index(){
         $news = News::all();
-        return $news;
+        return view('news', [
+            'news' => $news
+          ]);
     }
 
     public function create(Request $request){
-        return News::create([
+         News::create([
             'title' => $request->title,
             'text' => $request->text
         ]);
+        return redirect('/news');
     }
     public function delete(Request $request){
-        $news = News::where('title', $request->title)->delete();
-        return 'deleted';
+        $news = News::where('id', $request->id)->delete();
+        return redirect('/news');
     }
 }

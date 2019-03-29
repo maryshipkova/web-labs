@@ -24,7 +24,7 @@ Route::post('/news', [
     'uses' => 'NewsController@create'
     ]
 );
-Route::delete('/news', [
+Route::delete('/news/{id}', [
     'uses' => 'NewsController@delete'
     ]
 );
