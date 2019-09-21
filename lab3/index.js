@@ -1,16 +1,16 @@
 var text, img;
 
+
 function updateView() {
-    // console.log(text, img);
     if (text && img && img.loaded) {
-        ctx.drawImage(img, 125, 0);
+        ctx.drawImage(img, 0, 0);
         var lines = splitText(text);
         if (lines > 5) {
             text = img = null;
             return;
         }
         lines.map((line, i) => {
-            ctx.fillText(line, 10, 210 + 27 * (i + 1), 510);
+            ctx.fillText(line, 10, 150 + 27 * (i + 1), 510);
         });
     }
 }
@@ -30,7 +30,7 @@ function updateContent() {
     });
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://source.unsplash.com/collection/1127163/300x200');
+    xhr.open('GET', 'https://source.unsplash.com/collection/1127163/550x400');
     xhr.send();
     xhr.onload = function (data) {
         img = new Image();
@@ -61,6 +61,40 @@ function splitText(text) {
     return result;
 }
 
+//CSS
+var stylesheet = document.createElement('style');
+stylesheet.innerHTML = 
+`body{
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#text{
+    display: block;
+    border: 2px solid #72E4CD;
+    text-align: center;
+    font-size: 25px;
+    margin-right: 1rem;
+}
+
+#btn{
+    cursor: pointer;
+    border: 2px solid #72E4CD;
+    padding:  1rem 2rem;
+} 
+
+#btn:-webkit-any-link{
+    color: #000;
+    text-decoration:none;
+}
+`;
+document.body.appendChild(stylesheet);
+
+//HTML
 var canvas = document.createElement('canvas');
 canvas.id = 'text';
 canvas.width = 550;
@@ -72,12 +106,11 @@ button.id = 'btn';
 button.innerHTML = 'save';
 document.body.appendChild(button);
 
+
 button.addEventListener('click', function () {
     var dataURL = canvas.toDataURL('image/png');
     button.href = dataURL;
     button.download = dataURL;
-    // console.log(image)
-    // alert('saved!');
 });
 
 ctx = canvas.getContext('2d');
