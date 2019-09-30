@@ -6,14 +6,14 @@ function getCityData(city) {
 
             return {
                 city: data.city.name,
-                date: Date(currWeather.dt),
-                temperature: `${(currWeather.main.temp -272,15)} C`,
+                coordinates: [data.city.coord.lat,data.city.coord.lon],
                 humidity: `${currWeather.main.humidity} %`,
                 pressure: `${currWeather.main.pressure} hPa`,
                 wind: `${currWeather.wind.speed} meter/sec`,
                 weather: currWeather.weather[0].description,
+                temperature: `${parseInt(currWeather.main.temp-272)} C`,
             };
- 
+
         })
         .catch(e =>  {
             return Promise.resolve({city: '404: city not found'})
@@ -25,10 +25,10 @@ const source = document.getElementById('weather-template').innerHTML;
 const template = Handlebars.compile(source);
 
 
-document.getElementById('submit').addEventListener('click', async () => {
+document.getElementById('submit').addEventListener('submit', async (e) => {
+    e.preventDefault();
     getCityData(document.getElementById('input').value)
     .then(context =>{
-        console.log(context)
         const html = template(context);
         document.getElementById('result').innerHTML = html;
     })

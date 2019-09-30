@@ -9,19 +9,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.2.0/handlebars.min.js"></script>
     <link rel="stylesheet" href="./style.css">
     <script id="weather-template" type="text/x-handlebars-template">
-        <div class="Weather-MainInfo">
+        <div class="Weather-General">
             <h1 class="Weather-City">{{city}}</h1>
-                <h2 class="Weather-Description">
-                    {{#if weather}}{{weather}}{{/if}}
-                </h2>
-        </div>
-        {{#if weather}}
+            {{#if weather}}
+            <div class="Weather-MainInfo">
+                <h2 class="Weather-Temperature">{{temperature}}</h2>
+            </div>
+         </div>
         <ul class="Weather-List">
-            <li class="Weather-Item">date: {{date}}</li>
-            <li class="Weather-Item">temperature: {{temperature}}</li>
-            <li class="Weather-Item">humidity: {{humidity}}</li>
-            <li class="Weather-Item">pressure: {{pressure}}</li>
-            <li class="Weather-Item">wind: {{wind}}</li>
+            <li class="Weather-Item">Ветер: {{wind}}</li>
+            <li class="Weather-Item">Облачность: {{weather}}</li>
+            <li class="Weather-Item">Давление: {{pressure}}</li>
+            <li class="Weather-Item">Влажность: {{humidity}}</li>
+            <li class="Weather-Item">Координаты: {{coordinates}}</li>
         </ul>
         {{/if}}
       </script>
@@ -31,8 +31,11 @@
 
     <main class="Main">
         <div class="Main-Search">
-            <input type="text" id='input' class="Main-Input">
-            <button id='submit' class="Main-Button">submit</button>
+            <h3>Погода здесь</h3>
+            <form id="submit">
+                <input type="text" id='input' class="Main-Input">
+                <input type='submit' class="Main-Button" />
+            </form>
         </div>
         <div id="result" class="Weather"></div>
     </main>
