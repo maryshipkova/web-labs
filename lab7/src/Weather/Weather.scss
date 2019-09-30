@@ -1,0 +1,30 @@
+@import '../constants.scss';
+
+.Weather {
+	display: flex;
+	align-items: center;
+
+	&-MainInfo {
+		display: flex;
+		align-items: center;
+	}
+
+	&-Temperature {
+		font-size: 50px;
+		margin-left: 10px;
+	}
+
+	&-List {
+		padding: 0;
+		margin-left: 90px;
+	}
+
+	&-Item {
+		padding: 5px 10px;
+		margin-bottom: 5px;
+
+		background-color: $color-gray;
+		color: white;
+		list-style: none;
+	}
+}
