@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.2.0/handlebars.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <script id="weather-template" type="text/x-handlebars-template">
+        <div class="Weather-MainInfo">
+            <h1 class="Weather-City">{{city}}</h1>
+                <h2 class="Weather-Description">
+                    {{#if weather}}{{weather}}{{/if}}
+                </h2>
+        </div>
+        {{#if weather}}
+        <ul class="Weather-List">
+            <li class="Weather-Item">date: {{date}}</li>
+            <li class="Weather-Item">temperature: {{temperature}}</li>
+            <li class="Weather-Item">humidity: {{humidity}}</li>
+            <li class="Weather-Item">pressure: {{pressure}}</li>
+            <li class="Weather-Item">wind: {{wind}}</li>
+        </ul>
+        {{/if}}
+      </script>
+</head>
+
+<body>
+
+    <main class="Main">
+        <div class="Main-Search">
+            <input type="text" id='input' class="Main-Input">
+            <button id='submit' class="Main-Button">submit</button>
+        </div>
+        <div id="result" class="Weather"></div>
+    </main>
+
+
+    <script src="./index.js"></script>
+</body>
+
+</html>
