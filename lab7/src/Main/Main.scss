@@ -1,16 +1,20 @@
 @import '../constants.scss';
 
 .Main {
-  display: flex;
-  flex-direction: column;
-
   background-color: white;
   border-radius: 18px;
   min-width: 50%;
   min-height: 200px;
   padding: 10px 20px;
 
+  &-Search{
+    display: flex;
+    align-items: center;
+
+  }
+
   &-Button{
+    margin-left: 20px;
     background-color:$color-gray;
     padding: 10px 15px;
     border-radius: 100px;

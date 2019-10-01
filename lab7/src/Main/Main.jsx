@@ -1,39 +1,34 @@
 import React from 'react';
 import {Weather} from "../Weather/Weather";
 import './Main.scss'
+import {Bookmarks} from "../Bookmark/Bookmarks";
 
-export class Main extends React.PureComponent{
+export const Main = () =>{
+    const [coordinates, updateCoordinates] = React.useState();
 
-    onButtonClick(){
+    const onButtonClick = ()=> {
         if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(function(position) {
-                // var latitude = position.coords.latitude;
-                // var longitude = position.coords.longitude;
-                console.log(position);
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                updateCoordinates({lat:latitude, lon:longitude});
             });
-        };
-    }
+        }
+    };
 
-    render(){
         // избранное в localStorage
         return (
         <main className={'Main'}>
             <div className="Main-Search">
                 <h3>Погода здесь</h3>
-                <button className="Main-Button" onClick={this.onButtonClick}>Обновить геолокацию</button>
+                <button className="Main-Button" onClick={onButtonClick}>Обновить геолокацию</button>
             </div>
-            <Weather city={'Saint-Peterburg'}/>
-            <div className={'Main-Bookmarks Bookmarks'}>
-                <div className={'Bookmarks-Row'}>
-                    <h3 className={'Bookmarks-Title'}>Избранное</h3>
-                    <div className={'Bookmarks-Add'}>
-                        <input type="text" placeholder={'Добавить новый город'}/>
-                    </div>
-                </div>
+            <Weather main coordinates={coordinates}/>
+            <div className={'Main-Bookmarks'}>
+               <Bookmarks/>
                 <Weather city={'Moscow'}/>
                 <Weather city={'Helsinki'}/>
             </div>
         </main>
         )
-    }
-}
+};

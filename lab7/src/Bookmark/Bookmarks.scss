@@ -1,0 +1,18 @@
+@import '../constants.scss';
+
+.Bookmarks {
+  &-Row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-Input{
+
+  }
+
+  &-AddButton{
+    margin-left: 10px;
+  }
+
+}

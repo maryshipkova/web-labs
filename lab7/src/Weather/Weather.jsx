@@ -1,18 +1,24 @@
 import * as React from 'react';
 import './Weather.scss';
 
+const getData = (city, coordinates) =>{
+    const fetchUrl = city? `q=${city}`:`lat=${coordinates.lat}&lon=${coordinates.lon}`;
+    // console.log(city, coordinates);
+
+    return fetch(`http://api.openweathermap.org/data/2.5/forecast?${fetchUrl}&APPID=62462c93c650ac75e405b900f2457d73`)
+        .then(data => data.json())
+};
+
 export const Weather = (props)=> {
     const [weatherInfo, updateWeatherInfo] = React.useState({});
-
     const getCityData = (city) =>{
-        return fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=62462c93c650ac75e405b900f2457d73`)
-            .then(data => data.json())
+        return getData(city, coordinates)
             .then(data => {
                 const currWeather = data.list[0];
 
                 updateWeatherInfo({
-                    city: data.city.name,
-                    coordinates: [data.city.coord.lat,data.city.coord.lon],
+                    cityName: data.city.name,
+                    coord: [data.city.coord.lat,data.city.coord.lon],
                     humidity: `${currWeather.main.humidity} %`,
                     pressure: `${currWeather.main.pressure} hPa`,
                     wind: `${currWeather.wind.speed} meter/sec`,
@@ -27,20 +33,24 @@ export const Weather = (props)=> {
             })
     };
 
+    const {city, coordinates, main} = props;
+
     React.useEffect(()=>{
-        getCityData(props.city)
-    }, []);
+        if(city || coordinates){
+            getCityData(city, coordinates);
+        }
+    }, [city, coordinates]);
 
     if(weatherInfo.error) return <div> {weatherInfo.error}</div>;
 
-    const {city, temperature, wind, weather, pressure, humidity, coordinates} = weatherInfo;
+    const {cityName, temperature, wind, weather, pressure, humidity, coord} = weatherInfo;
 
     return (
-        <div className={'Weather'}>
-            {weatherInfo ?
+        <div className={`Weather${main? ' Weather_main':''}`}>
+            {weatherInfo && weatherInfo.cityName?
                 <React.Fragment>
             <div className="Weather-General">
-                <h1 className="Weather-City">{city}</h1>
+                <h1 className="Weather-City">{cityName}</h1>
                 <div className="Weather-MainInfo">
                     <div className="Weather-Icon">%icon%</div>
                     <h2 className="Weather-Temperature">{temperature}</h2>
@@ -51,7 +61,7 @@ export const Weather = (props)=> {
                 <li className="Weather-Item">Облачность: {weather}</li>
                 <li className="Weather-Item">Давление: {pressure}</li>
                 <li className="Weather-Item">Влажность: {humidity}</li>
-                <li className="Weather-Item">Координаты: {coordinates}</li>
+                <li className="Weather-Item">Координаты: {coord && `${coord[0]} ${coord[1]}`}</li>
             </ul>
             </React.Fragment>: null}
         </div>
