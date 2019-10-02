@@ -4,7 +4,6 @@ export const actions = {
 };
 
 export const add = city => {
-    console.info(`${actions.ADD} payload: ${city}`);
     return {
         type: actions.ADD,
         payload: city
@@ -12,7 +11,6 @@ export const add = city => {
 };
 
 export const remove = city => {
-    console.info(`${actions.ADD} payload: ${city}`);
     return {
         type: actions.REMOVE,
         payload: city
