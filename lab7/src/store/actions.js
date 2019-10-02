@@ -1,3 +1,5 @@
+import {addCityToStorage, removeCityFromStorage} from "../utils/localStorage";
+
 export const actions = {
     ADD: 'ADD',
     REMOVE: 'REMOVE',

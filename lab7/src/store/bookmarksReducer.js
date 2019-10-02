@@ -1,22 +1,21 @@
 import {actions} from "./actions";
+import {addCityToStorage, getCitiesFromStorage, removeCityFromStorage} from "../utils/localStorage";
 
-export function bookmarksReducer(state = {cities: []}, action) {
+export function bookmarksReducer(state = {cities: getCitiesFromStorage()}, action) {
 
     switch(action.type) {
         case actions.ADD:
             console.info(`${actions.ADD} payload: ${action.payload}`);
 
             return {
-                ...state,
-                cities:[...state.cities, action.payload]
+                cities:addCityToStorage(action.payload)
             };
 
         case actions.REMOVE:
             console.info(`${actions.REMOVE} payload: ${action.payload}`);
 
             return {
-                ...state,
-                cities:state.cities.filter(city => city !== action.payload)
+                cities:removeCityFromStorage(action.payload)
             };
 
         default:

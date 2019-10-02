@@ -1,12 +1,8 @@
 import * as React from 'react';
 import './Weather.scss';
-import {useReducer} from "react";
-import {bookmarksReducer} from "../store/bookmarksReducer";
-import {actions} from "../store/actions";
 
 const getData = (city, coordinates) =>{
     const fetchUrl = city? `q=${city}`:`lat=${coordinates.lat}&lon=${coordinates.lon}`;
-    // console.log(city, coordinates);
 
     return fetch(`http://api.openweathermap.org/data/2.5/forecast?${fetchUrl}&APPID=62462c93c650ac75e405b900f2457d73`)
         .then(data => data.json())
@@ -14,7 +10,7 @@ const getData = (city, coordinates) =>{
 
 export const Weather = (props)=> {
     const [weatherInfo, updateWeatherInfo] = React.useState({});
-    const [_, dispatch] = useReducer(bookmarksReducer, {cities:[]});
+
     const getCityData = (city) =>{
         return getData(city, coordinates)
             .then(data => {
@@ -37,7 +33,7 @@ export const Weather = (props)=> {
             })
     };
 
-    const {city, coordinates, main} = props;
+    const {city, coordinates, main, onRemove} = props;
 
     React.useEffect(()=>{
         if(city || coordinates){
@@ -59,7 +55,7 @@ export const Weather = (props)=> {
                     <div className="Weather-Icon">%icon%</div>
                     <h2 className="Weather-Temperature">{temperature}</h2>
                 </div>
-                {!main && <button onClick={()=>dispatch({type: actions.REMOVE, payload:cityName})}>&Chi;</button>}
+                {!main && <button onClick={()=>onRemove(cityName)}>&Chi;</button>}
             </div>
             <ul className="Weather-List">
                 <li className="Weather-Item">Ветер: {wind}</li>
