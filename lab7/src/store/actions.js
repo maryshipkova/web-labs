@@ -1,21 +1,19 @@
-import {addCityToStorage, removeCityFromStorage} from "../utils/localStorage";
-
 export const actions = {
     ADD: 'ADD',
     REMOVE: 'REMOVE',
 };
 
-export const add = city => {
-    return {
+export const add = (dispatch, city) => {
+    dispatch({
         type: actions.ADD,
         payload: city
-    }
+    })
 };
 
-export const remove = city => {
-    return {
+export const remove = (dispatch, city) => {
+    dispatch({
         type: actions.REMOVE,
         payload: city
-    }
+    })
 };
 

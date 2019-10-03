@@ -1,16 +1,16 @@
 import React from 'react';
-import './Bookmarks.scss'
-import {connect} from "react-redux";
-import {add} from '../store/actions.js';
+import './Bookmarks.scss';
+import { add} from "../store/actions";
+import {useDispatch} from "react-redux";
 
-const BookmarksFC = (props) => {
+export const Bookmarks = () => {
     const [value, setValue] = React.useState('');
+    const dispatch = useDispatch();
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.add(value);
+        add(dispatch,value);
     };
 
-    // избранное в localStorage
     return (
         <main className={'Bookmarks'}>
             <div className={'Bookmarks-Row'}>
@@ -28,10 +28,3 @@ const BookmarksFC = (props) => {
         </main>
     )
 };
-
-
-const mapDispatchToProps = {
-    add
-};
-
-export const Bookmarks = connect(null, mapDispatchToProps)(BookmarksFC);
