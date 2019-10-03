@@ -16,7 +16,6 @@ export const Weather = (props) => {
         return getData(city, coordinates)
             .then(data => {
                 const currWeather = data.list[0];
-
                 updateWeatherInfo({
                     cityName: data.city.name,
                     coord: [data.city.coord.lat, data.city.coord.lon],
@@ -50,11 +49,11 @@ export const Weather = (props) => {
         return (
             <div>
                 {city}: {weatherInfo.error}
-                <button onClick={() => onRemove(city)}>&Chi;</button>
+                <button className={'Weather-Remove'} onClick={() => onRemove(city)}>&Chi;</button>
             </div>);
     }
 
-    const {cityName, temperature, wind, weather, pressure, humidity, coord} = weatherInfo;
+    const {cityName, temperature, wind, weather, pressure, humidity, coord, icon} = weatherInfo;
 
     return (
         <div className={`Weather${main ? ' Weather_main' : ''}`}>
@@ -63,10 +62,12 @@ export const Weather = (props) => {
                     <div className="Weather-General">
                         <h1 className="Weather-City">{cityName}</h1>
                         <div className="Weather-MainInfo">
-                            <div className="Weather-Icon">%icon%</div>
+                            <div className="Weather-Icon">
+                                <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt={icon}/>
+                            </div>
                             <h2 className="Weather-Temperature">{temperature}</h2>
                         </div>
-                        {!main && <button onClick={() => onRemove(city)}>&Chi;</button>}
+                        {!main && <button className={'Weather-Button'} onClick={() => onRemove(city)}>&Chi;</button>}
                     </div>
                     <ul className="Weather-List">
                         <li className="Weather-Item">Ветер: {wind}</li>

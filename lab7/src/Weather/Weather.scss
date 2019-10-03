@@ -25,6 +25,14 @@
     margin: 0;
     margin-left: 10px;
   }
+  &-Button{
+    background-color: $color-gray;
+    color: white;
+    padding: 8px 12px;
+    border:none;
+    border-radius: 50%;
+    margin-left: auto;
+  }
 
   &-List {
     padding: 0;

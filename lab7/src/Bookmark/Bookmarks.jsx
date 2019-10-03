@@ -22,7 +22,7 @@ export const Bookmarks = () => {
                         placeholder={'Добавить новый город'}
                         onChange={e => setValue(e.target.value)}
                     />
-                    <input type={"submit"} className={'Bookmarks-AddButton'} value={'+'}/>
+                    <input type={"submit"} className={'Bookmarks-AddButton Weather-Button'} value={'+'}/>
                 </form>
             </div>
         </main>
