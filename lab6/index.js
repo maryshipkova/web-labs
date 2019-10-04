@@ -27,7 +27,7 @@ const template = Handlebars.compile(source);
 
 document.getElementById('submit').addEventListener('submit', async (e) => {
     e.preventDefault();
-    getCityData(document.getElementById('input').value)
+    getCityData(e.target[0].value)
     .then(context =>{
         const html = template(context);
         document.getElementById('result').innerHTML = html;
