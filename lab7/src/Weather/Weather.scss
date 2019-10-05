@@ -1,0 +1,73 @@
+@import '../constants.scss';
+
+.Weather {
+  &:not(:last-child){
+    margin-bottom: 20px;
+  }
+
+  &-General {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  &-City {
+    margin: 0;
+  }
+
+  &-MainInfo {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+
+  &-Temperature {
+    margin: 0;
+    margin-left: 10px;
+  }
+  &-Button{
+    background-color: $color-gray;
+    color: white;
+    padding: 8px 12px;
+    border:none;
+    border-radius: 50%;
+    margin-left: auto;
+  }
+
+  &-List {
+    padding: 0;
+  }
+
+  &-Item {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+
+    background-color: $color-gray;
+    color: white;
+    list-style: none;
+  }
+}
+
+.Weather_main.Weather {
+  display: flex;
+  margin-top: 20px;
+
+  .Weather-General {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Weather-MainInfo{
+    margin-top: 20px;
+
+  }
+
+  .Weather-List {
+    padding: 0;
+    margin-left: 90px;
+  }
+
+  .Weather-Temperature {
+    font-size: 50px;
+  }
+}

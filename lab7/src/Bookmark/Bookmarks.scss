@@ -1,0 +1,23 @@
+@import '../constants.scss';
+
+.Bookmarks {
+  &-Row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-Input{
+    background-color: $color-light-gray;
+    color: $color-gray-text;
+    border: 1px solid $color-gray;
+    border-radius: 100px;
+    padding: 5px 15px;
+  }
+
+  &-AddButton{
+    margin-left: 10px;
+    font-size: 16px;
+  }
+
+}
