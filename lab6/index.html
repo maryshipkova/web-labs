@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.2.0/handlebars.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <script id="weather-template" type="text/x-handlebars-template">
+        <div class="Weather-General">
+            <h1 class="Weather-City">{{city}}</h1>
+            {{#if weather}}
+            <div class="Weather-MainInfo">
+                <h2 class="Weather-Temperature">{{temperature}}</h2>
+            </div>
+         </div>
+        <ul class="Weather-List">
+            <li class="Weather-Item">Ветер: {{wind}}</li>
+            <li class="Weather-Item">Облачность: {{weather}}</li>
+            <li class="Weather-Item">Давление: {{pressure}}</li>
+            <li class="Weather-Item">Влажность: {{humidity}}</li>
+            <li class="Weather-Item">Координаты: {{coordinates}}</li>
+        </ul>
+        {{/if}}
+      </script>
+</head>
+
+<body>
+
+    <main class="Main">
+        <div class="Main-Search">
+            <h3>Погода здесь</h3>
+            <form id="submit">
+                <input type="text" id='input' class="Main-Input">
+                <input type='submit' class="Main-Button" />
+            </form>
+        </div>
+        <div id="result" class="Weather"></div>
+    </main>
+
+
+    <script src="./index.js"></script>
+</body>
+
+</html>

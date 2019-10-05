@@ -1,0 +1,60 @@
+$color-gray: #939cb0;
+$color-gray-text: rgb(109, 104, 104);
+$color-light-gray: #f5f5f5;
+// $color-gray-text: #f4f5f7;
+
+body {
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    color: $color-gray-text;
+}
+
+.Main {
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+    border-radius: 18px;
+    min-width: 50%;
+    min-height: 200px;
+    padding: 10px 20px;
+
+    &-Button{
+        background-color:$color-gray;
+        padding: 10px 15px;
+        border-radius: 100px;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+.Weather{
+    display: flex;
+    align-items: center;
+
+    &-MainInfo{
+        display: flex;
+        align-items: center;
+    }
+
+    &-Temperature{
+        font-size: 50px;
+        margin-left: 10px;
+    }
+
+    &-List{
+        padding: 0;
+        margin-left: 90px;
+    }
+
+    &-Item{
+        padding: 5px 10px;
+        margin-bottom: 5px;
+
+        background-color: $color-gray;
+        color:white;
+        list-style: none;
+    }
+}
