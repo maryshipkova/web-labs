@@ -12,12 +12,20 @@ export const Main = () => {
     const dispatch = useDispatch();
     const onButtonClick = () => {
         isLoading(true);
+
         navigator.geolocation.getCurrentPosition(function (position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            updateCoordinates({lat: latitude, lon: longitude});
-            isLoading(false);
-        });
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                updateCoordinates({lat: latitude, lon: longitude});
+                isLoading(false);
+            },
+            function (err) {
+                console.log(err);
+                updateCoordinates({lat: '59', lon: '30'});
+                isLoading(false);
+            }, {
+                maximumAge:1
+            });
 
     };
 
@@ -38,7 +46,7 @@ export const Main = () => {
             <div className={'Main-Bookmarks'}>
                 <Bookmarks/>
                 {
-                    cities && cities.map(city => <Weather id={city} city={city} onRemove={onRemove}/>)
+                    cities && cities.map(city => <Weather id={city} city={city} key={city} onRemove={onRemove}/>)
                 }
             </div>
         </main>

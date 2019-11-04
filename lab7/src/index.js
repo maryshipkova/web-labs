@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.scss';
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import {bookmarksReducer} from "./store/bookmarksReducer";
 import {Provider} from "react-redux";
+import thunk from 'redux-thunk';
 
-const store = createStore(bookmarksReducer);
+const store = createStore(bookmarksReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>

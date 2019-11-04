@@ -1,20 +1,19 @@
 import * as React from 'react';
+import { useDispatch } from "react-redux";
+import { getCityData } from "../store/actions";
 import './Weather.scss';
 
-const getData = (city, coordinates) => {
-    const fetchUrl = city ? `q=${city}` : `lat=${coordinates.lat}&lon=${coordinates.lon}`;
-
-    return fetch(`http://api.openweathermap.org/data/2.5/forecast?${fetchUrl}&APPID=62462c93c650ac75e405b900f2457d73`)
-        .then(data => data.json())
-};
 
 export const Weather = (props) => {
     const [weatherInfo, updateWeatherInfo] = React.useState({});
     const [loading, isLoading] = React.useState(false);
+    const dispatch = useDispatch();
+    const {city, coordinates, main, onRemove} = props;
 
-    const getCityData = (city) => {
-        return getData(city, coordinates)
-            .then(data => {
+    React.useEffect(() => {
+        if (city || coordinates) {
+            isLoading(true);
+            getCityData(dispatch, city, coordinates).then(data => {
                 const currWeather = data.list[0];
                 updateWeatherInfo({
                     cityName: data.city.name,
@@ -27,25 +26,16 @@ export const Weather = (props) => {
                     icon: currWeather.weather[0].icon
                 });
                 isLoading(false);
-            })
-            .catch(e => {
+            }).catch(e => {
                 isLoading(false);
                 return updateWeatherInfo({city, error: '404 city not found'});
-            })
-    };
-
-    const {city, coordinates, main, onRemove} = props;
-
-    React.useEffect(() => {
-        if (city || coordinates) {
-            isLoading(true);
-            getCityData(city, coordinates);
+            });
         }
-    }, [city, coordinates]);
+    }, [city, coordinates, dispatch]);
 
 
-    if(loading) return <div>loading</div>;
-    if (weatherInfo.error){
+    if (loading) return <div>loading</div>;
+    if (weatherInfo.error) {
         return (
             <div>
                 {city}: {weatherInfo.error}
