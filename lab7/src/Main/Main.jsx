@@ -1,6 +1,6 @@
 import React from 'react';
 import {Weather} from "../Weather/Weather";
-import {Bookmarks} from "../Bookmark/Bookmarks";
+import {Bookmarks} from "../Bookmarks/Bookmarks";
 import {useDispatch, useSelector} from "react-redux";
 import './Main.scss'
 import {remove} from "../store/actions";

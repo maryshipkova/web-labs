@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App 1`] = `
+<div
+  className="App"
+>
+  <main
+    className="Main"
+  >
+    <div
+      className="Main-Search"
+    >
+      <h3>
+        Погода здесь
+      </h3>
+      <button
+        className="Main-Button"
+        onClick={[Function]}
+      >
+        Обновить геолокацию
+      </button>
+    </div>
+    <div
+      className="Weather Weather_main"
+    />
+    <div
+      className="Main-Bookmarks"
+    >
+      <main
+        className="Bookmarks"
+      >
+        <div
+          className="Bookmarks-Row"
+        >
+          <h3
+            className="Bookmarks-Title"
+          >
+            Избранное
+          </h3>
+          <form
+            className="Bookmarks-Add"
+            onSubmit={[Function]}
+          >
+            <input
+              className="Bookmarks-Input"
+              onChange={[Function]}
+              placeholder="Добавить новый город"
+              type="text"
+            />
+            <input
+              className="Bookmarks-AddButton Weather-Button"
+              type="submit"
+              value="+"
+            />
+          </form>
+        </div>
+      </main>
+      <div
+        className="Weather"
+      />
+      <div
+        className="Weather"
+      />
+      <div
+        className="Weather"
+      />
+    </div>
+  </main>
+</div>
+`;

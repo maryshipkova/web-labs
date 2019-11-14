@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Weather 1`] = `
+<div
+  className="Weather"
+>
+  <div
+    className="Weather-General"
+  >
+    <h1
+      className="Weather-City"
+    >
+      Moscow
+    </h1>
+    <div
+      className="Weather-MainInfo"
+    >
+      <div
+        className="Weather-Icon"
+      >
+        <img
+          alt="04n"
+          src="http://openweathermap.org/img/wn/04n@2x.png"
+        />
+      </div>
+      <h2
+        className="Weather-Temperature"
+      >
+        3 C
+      </h2>
+    </div>
+    <button
+      className="Weather-Button"
+      onClick={[Function]}
+    >
+      Χ
+    </button>
+  </div>
+  <ul
+    className="Weather-List"
+  >
+    <li
+      className="Weather-Item"
+    >
+      Ветер: 
+      4.2 meter/sec
+    </li>
+    <li
+      className="Weather-Item"
+    >
+      Облачность: 
+      overcast clouds
+    </li>
+    <li
+      className="Weather-Item"
+    >
+      Давление: 
+      1030 hPa
+    </li>
+    <li
+      className="Weather-Item"
+    >
+      Влажность: 
+      77 %
+    </li>
+    <li
+      className="Weather-Item"
+    >
+      Координаты: 
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Weather 2`] = `
+<div>
+  : 
+  test
+  <button
+    className="Weather-Remove"
+    onClick={[Function]}
+  >
+    Χ
+  </button>
+</div>
+`;
+
+exports[`Weather 404  1`] = `
+<div>
+  : 
+  test
+  <button
+    className="Weather-Remove"
+    onClick={[Function]}
+  >
+    Χ
+  </button>
+</div>
+`;

@@ -5,7 +5,11 @@ import './Weather.scss';
 
 
 export const Weather = (props) => {
-    const [weatherInfo, updateWeatherInfo] = React.useState({});
+    let [weatherInfo, updateWeatherInfo] = React.useState({});
+    //monkey patching
+    if(props.weatherInfo){
+        weatherInfo =  props.weatherInfo;
+    }
     const [loading, isLoading] = React.useState(false);
     const dispatch = useDispatch();
     const {city, coordinates, main, onRemove} = props;
@@ -44,7 +48,6 @@ export const Weather = (props) => {
     }
 
     const {cityName, temperature, wind, weather, pressure, humidity, coord, icon} = weatherInfo;
-
     return (
         <div className={`Weather${main ? ' Weather_main' : ''}`}>
             {weatherInfo && weatherInfo.cityName ?
