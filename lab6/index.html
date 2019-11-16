@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./style.css">
     <script id="weather-template" type="text/x-handlebars-template">
         <div class="Weather-General">
-            <h1 class="Weather-City">{{city}}</h1>
+            <h1 class="Weather-City" id="city">{{city}}</h1>
             {{#if weather}}
             <div class="Weather-MainInfo">
                 <h2 class="Weather-Temperature">{{temperature}}</h2>
@@ -1382,6 +1382,11 @@
                     });
             });
 
+            it('Город', function() {
+                const weatherInfo = document.getElementById('city');
+                assert.equal(weatherInfo.innerText, 'Moscow');
+            });
+
             it('Ветер', function() {
                 const weatherInfo = document.getElementById('wind');
                 assert.match(weatherInfo.innerText, /Ветер: \d*.\d* meter\/sec/);
@@ -1405,6 +1410,26 @@
             it('Координаты', function() {
                 const weatherInfo = document.getElementById('coordinates');
                 assert.match(weatherInfo.innerText, /Координаты: \d+.\d+,\d+.\d+/);
+            });
+
+            it('Ошибка', async function() {
+                const fakeUrl = 'http://api.openweathermap.org/data/2.5/forecast?q=Moscow&APPID=62462c93c650ac75e405b900f2457d73';
+                var mock = sinon.fakeServer.create();
+                mock.autoRespond = true;
+                mock.respondWith("GET", fakeUrl, [
+                    404,
+                    { "Content-Type": "application/json" },
+                    JSON.stringify(backendStub)
+                ]);
+
+                await getCityData('1')
+                    .then(context =>{
+                        const html = template(context);
+                        document.getElementById('result').innerHTML = html;
+                    });
+
+                const weatherInfo = document.getElementById('city');
+                assert.equal(weatherInfo.innerText, '404: city not found');
             });
 
         });
