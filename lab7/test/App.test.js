@@ -4,20 +4,26 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import renderer from "react-test-renderer";
 import {Provider} from "react-redux";
-import {Weather} from "../src/Weather/Weather";
-import {Main} from "../src/Main/Main";
 import App from "../src/App";
+
+beforeAll(()=>{
+    console.error = jest.fn();
+    window.fetch = jest.fn(()=>Promise.resolve());
+});
 
 it('App', () => {
     const initialState={cities: ["Moscow","1234","12345"]};
     const mockStore = configureStore([thunk]);
     const store = mockStore(initialState);
 
-    const tree = renderer
-        .create(
-            <Provider store={store}>
-                <App/>
-            </Provider>)
-        .toJSON();
-    expect(tree).toMatchSnapshot();
+    let tree;
+    renderer.act(() => {
+        tree = renderer
+            .create(
+                <Provider store={store}>
+                    <App/>
+                </Provider>);
+    });
+
+    expect(tree.toJSON()).toMatchSnapshot();
 });

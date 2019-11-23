@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import './Main.scss'
 import {remove} from "../store/actions";
 
-export const Main = () => {
+export const Main = (props) => {
     const [coordinates, updateCoordinates] = React.useState();
     const [loading, isLoading] = React.useState(false);
     const cities = useSelector(state => state.cities);
@@ -40,7 +40,7 @@ export const Main = () => {
                 <button className="Main-Button" onClick={onButtonClick}>Обновить геолокацию</button>
             </div>
             {
-                loading ? <div>loading</div> :
+                props.loading || loading ? <div>loading</div> :
                     <Weather main coordinates={coordinates}/>
             }
             <div className={'Main-Bookmarks'}>
