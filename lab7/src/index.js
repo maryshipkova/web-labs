@@ -6,8 +6,9 @@ import {createStore, applyMiddleware} from 'redux'
 import {bookmarksReducer} from "./store/bookmarksReducer";
 import {Provider} from "react-redux";
 import thunk from 'redux-thunk';
+import {composeWithDevTools} from "redux-devtools-extension";
 
-const store = createStore(bookmarksReducer, applyMiddleware(thunk));
+const store = createStore(bookmarksReducer,  composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>

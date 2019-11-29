@@ -3,13 +3,24 @@ import {Weather} from "../Weather/Weather";
 import {Bookmarks} from "../Bookmarks/Bookmarks";
 import {useDispatch, useSelector} from "react-redux";
 import './Main.scss'
-import {remove} from "../store/actions";
+import {getCities, remove} from "../store/actions";
 
 export const Main = (props) => {
     const [coordinates, updateCoordinates] = React.useState();
     const [loading, isLoading] = React.useState(false);
-    const cities = useSelector(state => state.cities);
+    const cities = useSelector(state => {
+        if( state.cities.error ) return {error: state.cities.error}
+        return state.cities.map(cityObj => cityObj.city)
+    });
+
     const dispatch = useDispatch();
+
+    React.useEffect(()=>{
+        (async function f() {
+            await getCities(dispatch)
+        })();
+    }, [dispatch]);
+
     const onButtonClick = () => {
         isLoading(true);
 
@@ -20,7 +31,6 @@ export const Main = (props) => {
                 isLoading(false);
             },
             function (err) {
-                console.log(err);
                 updateCoordinates({lat: '59', lon: '30'});
                 isLoading(false);
             }, {
@@ -31,6 +41,11 @@ export const Main = (props) => {
 
     const onRemove = (city) => {
         remove(dispatch, city);
+    };
+
+    const renderCities = () =>{
+        return cities.error? <div key={'error'}>error: {cities.error.toString()}</div>:
+             cities.map((city, i) => <Weather id={city} city={city} key={`city_${i}`} onRemove={onRemove}/>)
     };
 
     return (
@@ -46,7 +61,7 @@ export const Main = (props) => {
             <div className={'Main-Bookmarks'}>
                 <Bookmarks/>
                 {
-                    cities && cities.map(city => <Weather id={city} city={city} key={city} onRemove={onRemove}/>)
+                    cities? renderCities(): null
                 }
             </div>
         </main>

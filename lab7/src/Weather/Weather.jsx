@@ -10,6 +10,8 @@ export const Weather = (props) => {
     if(props.weatherInfo){
         weatherInfo =  props.weatherInfo;
     }
+
+
     const [loading, isLoading] = React.useState(false);
     const dispatch = useDispatch();
     const {city, coordinates, main, onRemove} = props;
@@ -18,6 +20,8 @@ export const Weather = (props) => {
         if (city || coordinates) {
             isLoading(true);
             getCityData(dispatch, city, coordinates).then(data => {
+                if(!data || !data.list) return Promise.reject('404: city not found');
+
                 const currWeather = data.list[0];
                 updateWeatherInfo({
                     cityName: data.city.name,
@@ -32,7 +36,7 @@ export const Weather = (props) => {
                 isLoading(false);
             }).catch(e => {
                 isLoading(false);
-                return updateWeatherInfo({city, error: '404 city not found'});
+                return updateWeatherInfo({city, error: e.toString()});
             });
         }
     }, [city, coordinates, dispatch]);
@@ -43,7 +47,7 @@ export const Weather = (props) => {
         return (
             <div>
                 {city}: {weatherInfo.error}
-                <button className={'Weather-Remove'} onClick={() => onRemove(city)}>&Chi;</button>
+                {!main && <button className={'Weather-Button'} onClick={() => onRemove(city)}>&Chi;</button>}
             </div>);
     }
 

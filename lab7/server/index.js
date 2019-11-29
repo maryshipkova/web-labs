@@ -24,18 +24,17 @@ app.use(bodyParser.urlencoded({     // support URL-encoded bodies
     extended: true
 }));
 
-// mongoose.connect("mongodb://localhost:27017/mdEditor", {useNewUrlParser: true});
-//
-// mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
-// mongoose.connection.on('connected', () => {
-//     console.info("Succesfully connected to MongoDB Database");
-// });
-//
-// const weatherScheme = new mongoose.Schema({
-//     name: String,
-//     text: String
-// });
-// const weatherModel = mongoose.connection.model('weather', weatherScheme);
+mongoose.connect("mongodb://localhost:27017/weatherDB", {useNewUrlParser: true});
+
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+mongoose.connection.on('connected', () => {
+    console.info("Succesfully connected to MongoDB Database");
+});
+
+const weatherScheme = new mongoose.Schema({
+    city: String,
+});
+const weatherModel = mongoose.connection.model('weather', weatherScheme, 'weather');
 
 function makeRequest(url, params) {
     return fetch(url, params).then(res => res.json());
@@ -58,59 +57,58 @@ function formOpenWeatherURL(params){
 // /weather?city=Moscow
 app.get('/weather', (request, response) => {
     const city = request.query.city;
-    if(!city) response.send(403); // TODO: bad request
+    if(!city) response.send(400); // TODO: bad request
 
     const url = formOpenWeatherURL(`q=${city}`);
     get(url).then(res => response.json(res));
 });
 
-// /weather/coordinates?lat=123&long=456
+// /weather/coordinates?lat=123&lon=456
 app.get('/weather/coordinates', (request, response) => {
-    const coordinates = request.query.coordinates;
-    if( !coordinates || !coordinates.lon || !coordinates.lat) response.send(403); // TODO: bad request
+    const {lat, lon} = request.query;
+    if( !lon || !lat) response.send(400);
 
-    const url = formOpenWeatherURL(`lat=${coordinates.lat}&lon=${coordinates.lon}`);
+    const url = formOpenWeatherURL(`lat=${lat}&lon=${lon}`);
     get(url).then(res => response.json(res));
 });
 
 
 app.get('/favourites', (request, response) => {
 
-    // weatherModel.find({}, function (err, res) {
-    //     if (err) console.log(err);
-    //     console.log('loaded');
-    //     response.json(res);
-    // });
+    weatherModel.find({},'city', function (err, res) {
+        if (err) console.log(err);
+        console.log(err,res);
+        response.json(res);
+    });
 });
 
 // запрос на добавление города
 app.post('/favourites', (request, response) => {
     const city = request.body.city;
-    if(!city) response.send(403); // TODO: bad request
+    console.log('body',request.body)
+    if(!city) response.sendStatus(400);
 
-    // weatherModel.findOneAndUpdate({name: request.body.name}, {text: request.body.text}, {upsert: true}, function (err) {
-    //     if (err) return response.sendStatus(500);
-    //     console.log('saved');
-    //     return response.sendStatus(200);
-    // });
+    weatherModel.create({city});
+    response.sendStatus(200);
 });
 
 // запрос на удаление города
 app.delete('/favourites', (request, response) => {
     const city = request.body.city;
-    if(!city) response.send(403); // TODO: bad request
-    // weatherModel.delete({name: request.body.name}, {text: request.body.text}, {upsert: true}, function (err) {
-    //     if (err) return response.sendStatus(500);
-    //     console.log('saved');
-    //     return response.sendStatus(200);
-    // });
+    console.log('body',request.body);
+    if(!city) response.sendStatus(400);
+    weatherModel.findOneAndRemove({city}, function (err) {
+        if (err) return response.sendStatus(500);
+        console.log('deleted');
+        return response.sendStatus(200);
+    });
 });
 
 
 
 //not found
 app.get('*', function (request, response) {
-    response.status(404).sendStatus('<h1>Page not found</h1>');
+    response.status(404).send('<h1>Page not found</h1>');
 });
 
 app.listen(port);
