@@ -43,11 +43,12 @@ export const Weather = (props) => {
 
 
     if (loading) return <div>loading</div>;
-    if (weatherInfo.error) {
+    if (weatherInfo.error && city) {
+        setTimeout(()=>onRemove(city), 2000);
+
         return (
             <div>
                 {city}: {weatherInfo.error}
-                {!main && <button className={'Weather-Button'} onClick={() => onRemove(city)}>&Chi;</button>}
             </div>);
     }
 

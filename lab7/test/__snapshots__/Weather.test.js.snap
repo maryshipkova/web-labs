@@ -4,12 +4,6 @@ exports[`Weather 404 1`] = `
 <div>
   : 
   404 city not found
-  <button
-    className="Weather-Button"
-    onClick={[Function]}
-  >
-    Χ
-  </button>
 </div>
 `;
 

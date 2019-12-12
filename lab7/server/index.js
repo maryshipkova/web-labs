@@ -69,7 +69,8 @@ app.get('/weather/coordinates', (request, response) => {
     if( !lon || !lat) response.send(400);
 
     const url = formOpenWeatherURL(`lat=${lat}&lon=${lon}`);
-    get(url).then(res => response.json(res));
+    console.log(url)
+    get(url).then(res => response.json(res)).catch(e => response.sendStatus(403));
 });
 
 
@@ -88,8 +89,11 @@ app.post('/favourites', (request, response) => {
     console.log('body',request.body)
     if(!city) response.sendStatus(400);
 
-    weatherModel.create({city});
-    response.sendStatus(200);
+    weatherModel.findOneAndUpdate({city},{},{upsert: true, useFindAndModify: true}, function (err) {
+        if (err) return response.sendStatus(500);
+        console.log('deleted');
+        return response.sendStatus(200);
+    });
 });
 
 // запрос на удаление города
@@ -99,7 +103,7 @@ app.delete('/favourites', (request, response) => {
     if(!city) response.sendStatus(400);
     weatherModel.findOneAndRemove({city}, function (err) {
         if (err) return response.sendStatus(500);
-        console.log('deleted');
+        console.log('deleted', city);
         return response.sendStatus(200);
     });
 });

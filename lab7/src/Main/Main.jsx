@@ -15,37 +15,46 @@ export const Main = (props) => {
 
     const dispatch = useDispatch();
 
+    const getGeoInfo = () => {
+        isLoading(true);
+        if(window.navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function (position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    updateCoordinates({lat: latitude, lon: longitude});
+                    isLoading(false);
+                },
+                function (err) {
+                    updateCoordinates({lat: '59', lon: '30'});
+                    isLoading(false);
+                }, {
+                    maximumAge:1
+                });
+        }else {
+            isLoading(false);
+        }
+    };
+
     React.useEffect(()=>{
         (async function f() {
             await getCities(dispatch)
         })();
+
+        getGeoInfo();
     }, [dispatch]);
 
-    const onButtonClick = () => {
-        isLoading(true);
-
-        navigator.geolocation.getCurrentPosition(function (position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                updateCoordinates({lat: latitude, lon: longitude});
-                isLoading(false);
-            },
-            function (err) {
-                updateCoordinates({lat: '59', lon: '30'});
-                isLoading(false);
-            }, {
-                maximumAge:1
-            });
-
+    const onButtonClick = () =>{
+        getGeoInfo();
     };
 
     const onRemove = (city) => {
+        console.log(city)
         remove(dispatch, city);
     };
 
     const renderCities = () =>{
         return cities.error? <div key={'error'}>error: {cities.error.toString()}</div>:
-             cities.map((city, i) => <Weather id={city} city={city} key={`city_${i}`} onRemove={onRemove}/>)
+             cities.map((city, i) => <Weather id={city} city={city} key={city} onRemove={onRemove}/>)
     };
 
     return (
