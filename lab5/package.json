@@ -11,7 +11,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "marked": "^0.6.1",
+    "marked": "^0.7.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
     "vue": "^2.6.6"
